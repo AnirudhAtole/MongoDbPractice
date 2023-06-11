@@ -1,4 +1,5 @@
-
+require('dotenv').config();
+const pathInfo = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 
@@ -15,12 +16,12 @@ const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(pathInfo.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
-  User.findById('6472f44694e8a575e9e16287')
+  User.findById('64844db4ca750bbb8f0c276c')
     .then(user => {
-      req.user = user;
+      req.user = new User(user.name, user.email , user.cart , user._id);
       next();
     })
     .catch(err => console.log(err));
